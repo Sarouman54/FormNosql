@@ -1,4 +1,10 @@
 """
+Sarah Barrabé
+wsgi.py
+src/SurveyQuiz
+
+"""
+"""
 WSGI config for SurveyQuiz project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.

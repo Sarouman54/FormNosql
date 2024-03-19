@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- {% for message in messages %}
+        <strong>{{ message }}</strong>
+    {% endfor %} -->
+    {% if user.is_authenticated %}
+        {% for survey in surveys %}
+            <button class="btn btn-primary">{{survey.name}}</button>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

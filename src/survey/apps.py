@@ -1,3 +1,9 @@
+"""
+Sarah Barrabé
+apps.py
+src/survey
+
+"""
 from django.apps import AppConfig
 
 
