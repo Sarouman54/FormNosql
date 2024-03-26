@@ -2,6 +2,11 @@
 
 {% block content %}
 <h1 class="text-center">Liste des sondages</h1>
+{% if messages %}
+{% for message in messages %}
+  <p class="text-success">{{message}}</p>
+{% endfor %}
+{% endif %}
 <div class="accordion mt-3" id="surveys_list">
     {% for survey in surveys %}
     <div class="accordion-item">

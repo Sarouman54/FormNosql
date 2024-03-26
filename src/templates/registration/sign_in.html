@@ -2,6 +2,11 @@
 
 {% block content %}
 <h1 class="text-center">Connexion</h1>
+{% if messages %}
+{% for message in messages %}
+  <p class="text-danger">{{message}}</p>
+{% endfor %}
+{% endif %}
 <form method="post" action="/signin">
   {% csrf_token %}
   <div class="mb-3">

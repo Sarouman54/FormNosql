@@ -19,12 +19,11 @@ def index(request):
 def new_survey(request):
     if request.method == "POST":
         surveyName = request.POST['namesurvey']
-        # question1 = request.POST['question1']
         nbQuestion = request.POST['nb_question']
         creatorEmail = request.user.email
         creatorName = request.user.username
         if collection_survey.find_one({'name': surveyName}):
-            print("non")
+            messages.add_message(request, messages.ERROR, "Un sondage portant ce nom existe déjà, veuillez modifier son nom")
         else:
             i = 1
             questions = []
@@ -32,6 +31,7 @@ def new_survey(request):
                 questions.append({'name': request.POST['question'+str(i)], 'type': request.POST['type'+str(i)]})
                 i = i+1
             collection_survey.insert_one({'name': surveyName, 'nb_question': nbQuestion, 'questions': questions, 'user': {'email': creatorEmail, 'username': creatorName}})
+            messages.add_message(request, messages.SUCCESS, "Sondage créé avec succès")
             return redirect('list_survey')
     return render(request, "./survey/new_survey.html")
 
@@ -43,6 +43,7 @@ def list_survey(request):
 
 def delete_survey(request, survey_name):
     collection_survey.delete_one({'name': survey_name})
+    messages.add_message(request, messages.SUCCESS, "Sondage supprimé avec succès")
     return redirect('list_survey')
 
 def update_survey(request, survey_name):
@@ -57,6 +58,7 @@ def update_survey(request, survey_name):
             questions.append({'name': request.POST['question_'+str((i+1))], 'type': request.POST['type'+str((i+1))]})
             i = i+1
         collection_survey.update_one({'name': survey_name}, {'$set': {'questions': questions}})
+        messages.add_message(request, messages.SUCCESS, "Sondage mis à jour avec succès")
         return redirect('list_survey')
     return render(request, "./survey/update_survey.html", context)
 
@@ -73,6 +75,8 @@ def answer_survey(request, survey_name):
             responses.append({'question': survey['questions'][i]['name'], 'response': request.POST['response_'+str((i+1))]})
             i = i+1
         collection_response.insert_one({'sondage': {'id': survey['_id'], 'name': survey['name']}, 'user': {'email': userEmail, 'username': userName}, 'response': responses})
+        messages.add_message(request, messages.SUCCESS, "Sondage répondu avec succès")
+        return redirect('index')
     return render(request, "./survey/answer_survey.html", context)
 
 def sign_up(request):
@@ -83,7 +87,7 @@ def sign_up(request):
         confirmPassword = request.POST['confirmPassword']
         user = User.objects.create_user(username, email, password)
         user.save()
-        messages.success(request, 'Votre compte a été créé avec succès')
+        messages.add_message(request, messages.SUCCESS, "Votre compte a été créé avec succès")
         return redirect('sign_in')
     return render(request, "./registration/sign_up.html")
 
@@ -97,13 +101,14 @@ def sign_in(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return render(request, "./survey/index.html")
+            messages.add_message(request, messages.SUCCESS, "Connexion réussie")
+            return redirect('index')
         else:
-            messages.error(request, 'Votre mot de passe ou votre email est incorrect')
+            messages.add_message(request, messages.ERROR, "Votre mot de passe ou votre email est incorrect")
             return redirect('sign_in')
     return render(request, "./registration/sign_in.html")
 
 def sign_out(request):
     logout(request)
-    messages.success(request, 'Vous avez été déconnecté')
+    messages.add_message(request, messages.SUCCESS, "Vous avez été déconnecté")
     return redirect ('index')
