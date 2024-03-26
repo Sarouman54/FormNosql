@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">Modification du sondage "{{survey.name}}"</h1>
+<form method="post" action="{% url 'update_survey' survey.name %}">
+    {% csrf_token %}
+    {% for question in questions %}
+    <div class="mb-3" id="list_question">
+        <label for="question_{{forloop.counter}}" class="form-label">Question n°{{forloop.counter}}</label>
+        <input type="text" class="form-control" id="question_{{forloop.counter}}" name="question_{{forloop.counter}}" value="{{question.name}}" required>
+        <br>
+        <label class="form-label">Sélectionner le nouveau type de la question</label>
+        <select name="type{{forloop.counter}}" id="type{{forloop.counter}}" class="form-select" aria-label="Default select example">
+          {% if question.type == 'fermée' %}
+          <option value="ouverte">ouverte</option>
+          <option value="fermée" selected>fermée</option>
+          {% else %}
+          <option value="ouverte" selected>ouverte</option>
+          <option value="fermée">fermée</option>
+          {% endif %}
+        </select>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Enregistrer le sondage</button>
+</form>
+{% endblock %}

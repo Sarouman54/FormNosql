@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">{{survey.name}}</h1>
+<form method="post" action="{% url 'answer_survey' survey.name %}">
+    {% csrf_token %}
+    {% for question in survey.questions %}
+    <div class="mb-3">
+        {% if question.type == 'fermée' %}
+        <label for="response_{{forloop.counter}}" class="form-label"> Q.{{forloop.counter}}: {{question.name}} (choisir oui ou non)</label>
+        <select name="response_{{forloop.counter}}" id="response_{{forloop.counter}}" class="form-select">
+            <option value="oui">oui</option>
+            <option value="non">non</option>
+        </select>
+        {% else %}
+        <label for="response_{{forloop.counter}}" class="form-label"> Q.{{forloop.counter}}: {{question.name}}</label>
+        <input type="text" class="form-control" id="response_{{forloop.counter}}" name="response_{{forloop.counter}}" required>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Enregistrer vos réponses</button>
+</form>
+{% endblock %}

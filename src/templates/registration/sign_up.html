@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">Inscription</h1>
+<form method="post" action="/signup">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label for="username" class="form-label">Nom d'utilisateur</label>
+    <input type="text" class="form-control" id="username" name="username" placeholder="exemple: sarouman_54" required>
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">E-mail</label>
+    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="exemple: mon.email@gmail.com" required>
+    <div id="emailHelp" class="form-text">Nous ne partagerons jamais votre email avec une tierce personne.</div>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Mot de passe</label>
+    <input type="password" class="form-control" id="password" name="password" placeholder="exemple: )6_6xpSB" required>
+  </div>
+  <div class="mb-3">
+      <label for="confirmPassword" class="form-label">Confirmez votre mot de passe</label>
+      <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="exemple: )6_6xpSB" required>
+    </div>
+  <!-- <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Cocher moi</label>
+  </div> -->
+  <button type="submit" class="btn btn-primary">M'inscrire</button>
+</form>
+{% endblock %}

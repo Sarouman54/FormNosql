@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-center">Liste des sondages</h1>
-<div class="accordion mt-3" id="surveys_list">
+<h1 class="text-center">Liste de mes sondages</h1>
+<div class="accordion" id="surveys_list">
     {% for survey in surveys %}
     <div class="accordion-item">
         <h2 class="accordion-header" id="head_{{survey.id}}">
@@ -12,13 +12,12 @@
         </h2>
         <div id="body_{{survey.id}}" class="accordion-collapse collapse" aria-labelledby="head_{{survey.id}}" data-bs-parent="#surveys_list">
             <div class="accordion-body">
-                {% if not user.is_authenticated %}
-                <p>Afin de répondre à ce sondage, veuillez-vous <a href="{% url 'sign_in' %}">connecter</a>. Si vous n'avez pas de compte veuillez-vous <a href="{% url 'sign_up' %}">inscrire</a>.</p>
-                {% else %}
-                <a href="{% url 'answer_survey' survey.name %}">
-                    <button class="btn btn-primary">Répondre au sondage</button>
-                </a> 
-                {% endif %}
+                <a href="{% url 'update_survey' survey.name %}">
+                    <button class="btn btn-primary">Modifier</button>
+                </a>
+                <a href="{% url 'delete_survey' survey.name %}">
+                    <button class="btn btn-primary">Supprimer</button>
+                </a>
             </div>
         </div>
     </div>

@@ -19,9 +19,6 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/#">Accueil</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/newsurvey">Créer un sondage</a>
-                </li>
                 {% if not user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="/signin">Connexion</a>
@@ -30,6 +27,12 @@
                     <a class="nav-link" href="/signup">Inscription</a>
                 </li>
                 {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/newsurvey">Créer un sondage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/listsurvey">Mes sondages</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/signout">Déconnexion</a>
                 </li>
@@ -41,5 +44,7 @@
         {% block content %}
         {% endblock %}
     </div>
+    {% block javascript %}
+    {% endblock %}
 </body>
 </html>

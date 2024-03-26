@@ -11,9 +11,14 @@ from . import views
 urlpatterns = [
     path('', views.index, name="index"),
 
-    path('newsurvey', views.create_survey, name="create_survey"),
+    path('newsurvey', views.new_survey, name="new_survey"),
+    path('listsurvey', views.list_survey, name="list_survey"),
+    path('listsurvey/update/<str:survey_name>', views.update_survey, name="update_survey"),
+    path('listsurvey/delete/<str:survey_name>', views.delete_survey, name="delete_survey"),
 
-    path('signin', views.signin, name='signin'),
-    path('signout', views.signout, name='signout'),
-    path('signup', views.signup, name='signup')
+    path('survey/<str:survey_name>', views.answer_survey, name="answer_survey"),
+
+    path('signin', views.sign_in, name='sign_in'),
+    path('signout', views.sign_out, name='sign_out'),
+    path('signup', views.sign_up, name='sign_up')
 ]

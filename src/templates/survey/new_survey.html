@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">Créer un sondage</h1>
+<form method="post" action="/newsurvey">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label for="namesurvey" class="form-label">Nom du sondage</label>
+    <input type="text" class="form-control" id="namesurvey" name="namesurvey" placeholder="exemple: Sondage sur le film préféré des français" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Question(s)</label>
+    <div class="mb-3">
+      <ol id="questions_list">
+        <li>
+          <input type="text" class="form-control" id="question1" name="question1" placeholder="exemple: Quel est votre film d'action préféré ?" required>          
+        </li>
+        <br>
+        <label class="form-label">Sélectionner le type de la question (par défaut "ouverte")</label>
+        <select name="type1" id="type1" class="form-select" aria-label="Default select example">
+          <option value="ouverte">ouverte</option>
+          <option value="fermée">fermée</option>
+        </select>
+        <br>
+      </ol>
+    </div>
+    <button type="button" class="btn btn-primary" onclick="addQuestion()">Ajouter une question</button>
+  </div>
+  <div class="mb-3">
+    <label for="nb_question" class="form-label">Nombre total de question</label>
+    <input type="number" id="nb_question" name="nb_question" min="1" max="100"/>
+  </div>
+  <br>
+  <button type="submit" class="btn btn-primary">Créer le sondage</button>
+</form>
+{% endblock %}
+
+{% block javascript %}
+{% load static %}
+<script src="{% static 'js/add_question.js' %}"></script>
+{% endblock %}
